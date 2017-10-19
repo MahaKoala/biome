@@ -1,0 +1,15 @@
+dependencies:
+  override:
+    - "sudo apt-add-repository 'deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe'"
+    - "sudo apt-get update"
+    - "sudo apt-get install shellcheck"
+
+checkout:
+  post:
+    - git clone https://github.com/sstephenson/bats.git
+    - cd bats && sudo ./install.sh /usr/local
+
+test:
+  override:
+    - shellcheck --exclude=SC1090,SC2001 biome.sh
+    - bats --tap test/
